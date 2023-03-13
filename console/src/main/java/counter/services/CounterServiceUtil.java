@@ -1,25 +1,22 @@
 package counter.services;
 
-import counter.services.impl.DocxCounterServiceImpl;
-import counter.services.impl.DocxPageCounterServiceImpl;
-import counter.services.impl.PdfCounterServiceImpl;
-import counter.services.impl.PdfPageCounterServiceImpl;
+import counter.services.impl.DocxService;
+import counter.services.impl.PdfService;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class CounterServiceUtil {
 
-    public static final Map<FileCounterService, PageCounterService> serviceMap = new ConcurrentHashMap<>();
+    public static final List<DocPageCounterService> docPageCounterServices = new ArrayList<>();
 
-    static
-    {
-        serviceMap.put(new PdfCounterServiceImpl(), new PdfPageCounterServiceImpl());
-        serviceMap.put(new DocxCounterServiceImpl(), new DocxPageCounterServiceImpl());
+    static {
+        docPageCounterServices.add(new DocxService());
+        docPageCounterServices.add(new PdfService());
     }
 
     public static int getMaxDepthOfDirectory(Path rootPath) throws IOException {

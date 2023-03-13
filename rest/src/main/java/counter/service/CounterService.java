@@ -18,10 +18,10 @@ public class CounterService {
         try {
             var maxDepth =  CounterServiceUtil.getMaxDepthOfDirectory(path);
 
-            for (var fileCounterService : CounterServiceUtil.serviceMap.keySet()) {
-                var filePathList = fileCounterService.getFilePaths(path, maxDepth);
+            for (var service : CounterServiceUtil.docPageCounterServices) {
+                var filePathList = service.getFilePaths(path, maxDepth);
                 documentCount += filePathList.size();
-                pageCount += CounterServiceUtil.serviceMap.get(fileCounterService).getCountPages(filePathList);
+                pageCount += service.getCountPages(filePathList);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
