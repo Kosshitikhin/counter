@@ -11,7 +11,7 @@ public class CounterApp {
     public static void main(String[] args) {
 
         var in = new Scanner(System.in);
-        System.out.println("Введите адрес окрневого каталога: ");
+        System.out.println("Введите адрес корневого каталога: ");
         var path = Path.of(in.nextLine());
 
         var documentCount = 0;
@@ -20,10 +20,10 @@ public class CounterApp {
         try {
             var maxDepth =  CounterServiceUtil.getMaxDepthOfDirectory(path);
 
-            for (var fileCounterService : CounterServiceUtil.serviceMap.keySet()) {
-                var filePathList = fileCounterService.getFilePaths(path, maxDepth);
+            for (var service : CounterServiceUtil.docPageCounterServices) {
+                var filePathList = service.getFilePaths(path, maxDepth);
                 documentCount += filePathList.size();
-                pageCount += CounterServiceUtil.serviceMap.get(fileCounterService).getCountPages(filePathList);
+                pageCount += service.getCountPages(filePathList);
             }
             System.out.println("Documents: " + documentCount);
             System.out.println("Pages: " + pageCount);
